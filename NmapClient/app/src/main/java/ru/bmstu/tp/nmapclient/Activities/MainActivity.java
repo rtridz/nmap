@@ -1,161 +1,145 @@
 package ru.bmstu.tp.nmapclient.Activities;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.os.Build;
+import android.support.v4.app.Fragment;
+import android.content.Intent;
+import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.MotionEvent;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
-import ru.bmstu.tp.nmapclient.Activities.util.SystemUiHider;
+import ru.bmstu.tp.nmapclient.Fragments.Adapters.MyFragmentPagerAdapter;
+import ru.bmstu.tp.nmapclient.Fragments.Adapters.SmartFragmentStatePagerAdapter;
+import ru.bmstu.tp.nmapclient.Fragments.Interfaces.DomainParam;
+import ru.bmstu.tp.nmapclient.Fragments.Interfaces.IpParam;
+import ru.bmstu.tp.nmapclient.Fragments.SpinnersFragment;
+import ru.bmstu.tp.nmapclient.Fragments.Interfaces.Spinners;
+
 import ru.bmstu.tp.nmapclient.R;
+import ru.bmstu.tp.nmapclient.Validator.Query;
+import ru.bmstu.tp.nmapclient.Validator.Validator;
 
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- *
- * @see SystemUiHider
- */
-public class MainActivity extends Activity {
-    /**
-     * Whether or not the system UI should be auto-hidden after
-     * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
-     */
-    private static final boolean AUTO_HIDE = true;
+public class MainActivity extends FragmentActivity implements View.OnClickListener {
 
-    /**
-     * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
-     * user interaction before hiding the system UI.
-     */
-    private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
+    final String LOG_TAG = "myLogs";
+    ViewPager pager;
+    Validator validator;
 
-    /**
-     * If set, will toggle the system UI visibility upon interaction. Otherwise,
-     * will show the system UI visibility upon interaction.
-     */
-    private static final boolean TOGGLE_ON_CLICK = true;
-
-    /**
-     * The flags to pass to {@link SystemUiHider#getInstance}.
-     */
-    private static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
-
-    /**
-     * The instance of the {@link SystemUiHider} for this activity.
-     */
-    private SystemUiHider mSystemUiHider;
+    SmartFragmentStatePagerAdapter adapterViewPager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate(Bundle savedInstanceState) {
 
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final View controlsView = findViewById(R.id.fullscreen_content_controls);
-        final View contentView = findViewById(R.id.fullscreen_content);
+        validator = new Validator();
 
-        // Set up an instance of SystemUiHider to control the system UI for
-        // this activity.
-        mSystemUiHider = SystemUiHider.getInstance(this, contentView, HIDER_FLAGS);
-        mSystemUiHider.setup();
-        mSystemUiHider
-                .setOnVisibilityChangeListener(new SystemUiHider.OnVisibilityChangeListener() {
-                    // Cached values.
-                    int mControlsHeight;
-                    int mShortAnimTime;
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        SpinnersFragment frag2 = SpinnersFragment.newInstance(this);
+        ft.replace(R.id.fragment2, frag2);
+        ft.commit();
 
-                    @Override
-                    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-                    public void onVisibilityChange(boolean visible) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-                            // If the ViewPropertyAnimator API is available
-                            // (Honeycomb MR2 and later), use it to animate the
-                            // in-layout UI controls at the bottom of the
-                            // screen.
-                            if (mControlsHeight == 0) {
-                                mControlsHeight = controlsView.getHeight();
-                            }
-                            if (mShortAnimTime == 0) {
-                                mShortAnimTime = getResources().getInteger(
-                                        android.R.integer.config_shortAnimTime);
-                            }
-                            controlsView.animate()
-                                    .translationY(visible ? 0 : mControlsHeight)
-                                    .setDuration(mShortAnimTime);
-                        } else {
-                            // If the ViewPropertyAnimator APIs aren't
-                            // available, simply show or hide the in-layout UI
-                            // controls.
-                            controlsView.setVisibility(visible ? View.VISIBLE : View.GONE);
-                        }
+        pager = (ViewPager) findViewById(R.id.pager);
+        adapterViewPager = new MyFragmentPagerAdapter(getSupportFragmentManager(), this);
+        pager.setAdapter(adapterViewPager);
 
-                        if (visible && AUTO_HIDE) {
-                            // Schedule a hide().
-                            delayedHide(AUTO_HIDE_DELAY_MILLIS);
-                        }
-                    }
-                });
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-        // Set up the user interaction to manually show or hide the system UI.
-        contentView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (TOGGLE_ON_CLICK) {
-                    mSystemUiHider.toggle();
-                } else {
-                    mSystemUiHider.show();
-                }
+            public void onPageSelected(int position) {
+                Log.d(LOG_TAG, "onPageSelected, position = " + position);
+            }
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset,
+                                       int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
             }
         });
 
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+        Log.w(LOG_TAG, "MainActivity onCreate");
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-
-        // Trigger the initial hide() shortly after the activity has been
-        // created, to briefly hint to the user that UI controls
-        // are available.
-        delayedHide(100);
+    public void onClick(View v) {
+        String queryString = "will be scan with parameters\n";
+        Query query = new Query();
+        switch (pager.getCurrentItem()) {
+            case 0:
+                if (adapterViewPager.getRegisteredFragment(pager.getCurrentItem()) instanceof DomainParam) {
+                    DomainParam domainParam = (DomainParam)adapterViewPager.getRegisteredFragment(pager.getCurrentItem());
+                    query.setType("domain");
+                    query.setDomain(domainParam.getDomain());
+                    query.setPortFrom(domainParam.getFrom());
+                    query.setPortTo(domainParam.getTo());
+                    queryString += domainParam.getDomain()+ "\n" + domainParam.getFrom() + "\n" + domainParam.getTo() + "\n";
+                }
+                else {
+                    Toast.makeText(this, "not instance DomainParam", Toast.LENGTH_LONG).show();
+                }
+                break;
+            case 1:
+                if (adapterViewPager.getRegisteredFragment(pager.getCurrentItem()) instanceof IpParam) {
+                    IpParam ipParam = (IpParam)adapterViewPager.getRegisteredFragment(pager.getCurrentItem());
+                    query.setType("ip");
+                    query.setIpFrom(ipParam.getIpFrom());
+                    query.setIpTo(ipParam.getIpTo());
+                    query.setPortFrom(ipParam.getPortFrom());
+                    query.setPortTo(ipParam.getPortTo());
+                    queryString += ipParam.getIpFrom()+ "\n" + ipParam.getIpTo() + "\n" + ipParam.getPortFrom() + "\n" + ipParam.getPortTo() + "\n";
+                }
+                else {
+                    Toast.makeText(this, "not instance IpParam", Toast.LENGTH_LONG).show();
+                }
+                break;
+            default:
+                break;
+        }
+        Fragment spinners = getSupportFragmentManager().findFragmentById(R.id.fragment2);
+        if (!validator.validQuery(query).equals("ok")) {
+            Toast.makeText(this, validator.validQuery(query), Toast.LENGTH_LONG).show();
+        }
+        else {
+            if (spinners instanceof Spinners) {
+                Spinners inter = (Spinners) spinners;
+                queryString += inter.getSpinner1() + "\n" + inter.getSpinner2() + "\n" + inter.getSpinner3();
+                Toast.makeText(this, queryString, Toast.LENGTH_LONG).show();
+            }
+            Intent intent = new Intent(this, ActivityTwo.class);
+            startActivity(intent);
+        }
     }
 
+    protected void onStart() {
+        super.onStart();
+        Log.w(LOG_TAG, "MainActivity onStart");
+    }
 
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
-    View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (AUTO_HIDE) {
-                delayedHide(AUTO_HIDE_DELAY_MILLIS);
-            }
-            return false;
-        }
-    };
+    protected void onResume() {
+        super.onResume();
+        Log.w(LOG_TAG, "MainActivity onResume");
+    }
 
-    Handler mHideHandler = new Handler();
-    Runnable mHideRunnable = new Runnable() {
-        @Override
-        public void run() {
-            mSystemUiHider.hide();
-        }
-    };
+    protected void onPause() {
+        super.onPause();
+        Log.w(LOG_TAG, "MainActivity onPause");
+    }
 
-    /**
-     * Schedules a call to hide() in [delay] milliseconds, canceling any
-     * previously scheduled calls.
-     */
-    private void delayedHide(int delayMillis) {
-        mHideHandler.removeCallbacks(mHideRunnable);
-        mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    protected void onStop() {
+        super.onStop();
+        Log.w(LOG_TAG, "MainActivity onStop");
+    }
+
+    protected void onDestroy() {
+
+        super.onDestroy();
+        Log.w(LOG_TAG, "MainActivity onDestroy");
     }
 }

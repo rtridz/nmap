@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="5pt"
+        android:layout_marginRight="5pt"
+        android:textSize="12pt"
+        android:layout_marginTop="3pt"
+        android:id="@+id/lvTopology"
+        android:layout_weight="2"
+        android:text="topology should be here"
+        android:gravity="center_horizontal">
+    </TextView>
+</LinearLayout>

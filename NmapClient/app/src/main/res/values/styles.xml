@@ -5,23 +5,72 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="FullscreenTheme" parent="android:Theme.NoTitleBar">
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowBackground">@null</item>
-        <item name="metaButtonBarStyle">@style/ButtonBar</item>
-        <item name="metaButtonBarButtonStyle">@style/ButtonBarButton</item>
-    </style>
-
-    <!-- Backward-compatible version of ?android:attr/buttonBarStyle -->
-    <style name="ButtonBar">
-        <item name="android:paddingLeft">2dp</item>
+    <style name="custom_spinner_style" parent="">
+        <item name="android:textSize">30sp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:paddingLeft">8dp</item>
         <item name="android:paddingTop">5dp</item>
-        <item name="android:paddingRight">2dp</item>
-        <item name="android:paddingBottom">0dp</item>
-        <item name="android:background">@android:drawable/bottom_bar</item>
+        <item name="android:paddingBottom">5dp</item>
     </style>
 
-    <!-- Backward-compatible version of ?android:attr/buttonBarButtonStyle -->
-    <style name="ButtonBarButton" />
+    <style name="input_from_to_text_view">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">5pt</item>
+        <item name="android:layout_marginRight">5pt</item>
+        <item name="android:textSize">15pt</item>
+        <item name="android:layout_marginTop">3pt</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="input_from_to_string">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginTop">3dp</item>
+    </style>
+
+    <style name="input_from_to_edit_text_domain">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textSize">15pt</item>
+        <item name="android:inputType">text</item>
+    </style>
+
+    <style name="input_from_to_edit_text_port">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">15pt</item>
+        <item name="android:layout_marginLeft">5pt</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:inputType">numberDecimal</item>
+    </style>
+
+    <style name="input_from_to_edit_text_ip">
+        <item name="android:textSize">15pt</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">5pt</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:inputType">number|numberDecimal</item>
+        <item name="android:digits">0123456789.</item>
+    </style>
+
+    <style name="input_from_to_entered_domain_or_ip">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">5pt</item>
+        <item name="android:layout_marginRight">5pt</item>
+        <item name="android:textSize">12pt</item>
+        <item name="android:layout_marginTop">3pt</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
 
 </resources>

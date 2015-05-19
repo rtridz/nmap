@@ -41,6 +41,5 @@ public final class DataBaseSchemas {
 
     public static abstract class Info implements BaseColumns {
         public static final String TABLE_NAME = "info";
-        public static final String
     }
 }

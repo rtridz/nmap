@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <LinearLayout
+        android:id="@+id/stringInputIp1"
+        style="@style/input_from_to_string">
+        <EditText
+            android:id="@+id/etIp1"
+            style="@style/input_from_to_edit_text_domain"
+            android:hint="@string/enter_domain_please">
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/inputFrom"
+        style="@style/input_from_to_string">
+        <TextView
+            android:id="@+id/tvInputFrom"
+            android:text="@string/from"
+            style="@style/input_from_to_text_view">
+        </TextView>
+        <EditText
+            android:id="@+id/etFrom"
+            style="@style/input_from_to_edit_text_port">
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
+        style="@style/input_from_to_string"
+        android:id="@+id/inputTo">
+        <TextView
+            android:id="@+id/tvInputTo"
+            android:text="@string/to"
+            style="@style/input_from_to_text_view">
+        </TextView>
+        <EditText
+            android:id="@+id/etTo"
+            style="@style/input_from_to_edit_text_port">
+        </EditText>
+    </LinearLayout>
+</LinearLayout>

@@ -1,8 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">NmapClient</string>
 
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="app_name">P1061_FragmentActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
-    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="frag1_text">Fragment 1</string>
+    <string name="frag2_text">Fragment 2</string>
+    <string name="log">Log</string>
+    <string name="find">Find</string>
+
+    <string-array name="buttom_mode">
+        <item>Stealth mode</item>
+        <item>Second mode</item>
+        <item>Third mode</item>
+    </string-array>
+
+    <string-array name="buttom_load">
+        <item>slow load</item>
+        <item>medium load</item>
+        <item>fast load</item>
+    </string-array>
+
+    <string-array name="buttom_scan">
+        <item>quick scan</item>
+        <item>medium scan</item>
+        <item>slow scan</item>
+        <item>slow scan</item>
+        <item>slow scan</item>
+        <item>slow scan</item>
+
+    </string-array>
+
+
+    <string name="enter_domain">enter domain …</string>
+    <string name="from_port">from</string>
+    <string name="to_port">to</string>
+    <string name="save_scan">Save Scan</string>
+    <string name="new_scan">New Scan</string>
+    <string name="scan_again">Scan Again</string>
+    <string name="scan">Scan</string>
+    <string name="from">from</string>
+    <string name="to">to</string>
+    <string name="enter_domain_please">enter domain ...</string>
+    <string name="enter_ip">enter_ip</string>
+    <string name="enter_ip_from">enter_ip_from</string>
+    <string name="enter_ip_to">enter_ip_to</string>
+    <string name="entered_domain">entered_domain</string>
+
+    <string-array name="lvDomain">
+        <item>mail.ru</item>
+        <item>mail.ru</item>
+        <item>mail.ru</item>
+        <item>mail.ru</item>
+        <item>mail.ru</item>
+        <item>mail.ru</item>
+    </string-array>
+
+    <string-array name="lvPort">
+        <item>80</item>
+        <item>5555</item>
+        <item>8612</item>
+        <item>986</item>
+        <item>8236</item>
+        <item>8612</item>
+    </string-array>
+
+    <string-array name="lvServer1">
+        <item>Ubuntu 12.04 Server</item>
+        <item>Ubuntu 12.04 Server</item>
+        <item>Ubuntu 12.04 Server</item>
+        <item>Ubuntu 12.04 Server</item>
+        <item>Ubuntu 12.04 Server</item>
+        <item>Ubuntu 12.04 Server</item>
+    </string-array>
+
+    <string-array name="lvServer2">
+        <item>Apache2</item>
+        <item>Mail Server</item>
+        <item>Nginx</item>
+        <item>Apache2</item>
+        <item>Hpplight</item>
+        <item>Nginx</item>
+    </string-array>
+
 </resources>

@@ -14,8 +14,8 @@ public class APIService extends IntentService {
         REGISTR, CHECK_SERVER, SEND_REQUEST
     }
 
-    public APIService(String name) {
-        super(name);
+    public APIService() {
+        super("APIService");
     }
 
     @Override

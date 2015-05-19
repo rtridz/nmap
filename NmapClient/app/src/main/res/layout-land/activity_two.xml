@@ -6,10 +6,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/btnSaveNew">
+        <Button
+            android:id="@+id/btnNewScan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/new_scan">
+        </Button>
+        <Button
+            android:id="@+id/btnScanAgain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/save_scan">
+        </Button>
+    </LinearLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/fragment2">
+        android:layout_below="@+id/btnSaveNew">
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
@@ -22,19 +43,4 @@
             </android.support.v4.view.PagerTabStrip>
         </android.support.v4.view.ViewPager>
     </FrameLayout>
-    <FrameLayout
-        android:id="@+id/fragment2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btnScan"
-        >
-    </FrameLayout>
-    <Button
-        android:id="@+id/btnScan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:onClick="onClick"
-        android:text="@string/scan">
-    </Button>
 </RelativeLayout>
