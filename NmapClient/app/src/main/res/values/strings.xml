@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">P1061_FragmentActivity</string>
+    <string name="app_name">NmapClient</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
@@ -39,14 +39,16 @@
     <string name="save_scan">Save Scan</string>
     <string name="new_scan">New Scan</string>
     <string name="scan_again">Scan Again</string>
-    <string name="scan">Scan</string>
+    <string name="scan">scan</string>
     <string name="from">from</string>
     <string name="to">to</string>
     <string name="enter_domain_please">enter domain ...</string>
     <string name="enter_ip">enter_ip</string>
     <string name="enter_ip_from">enter_ip_from</string>
     <string name="enter_ip_to">enter_ip_to</string>
-    <string name="entered_domain">entered_domain</string>
+    <string name="entered_domain">192.125.12.187 - 192.125.12.187</string>
+    <string name="history">History</string>
+    <string name="main_menu">main menu</string>
 
     <string-array name="lvDomain">
         <item>mail.ru</item>
@@ -83,5 +85,16 @@
         <item>Hpplight</item>
         <item>Nginx</item>
     </string-array>
+
+     <string name="some_text">
+         scan history
+     </string>
+     <string name="some_hint">
+         Type here to filter&#8230;
+     </string>
+    <string name="delete_scan">delete scan</string>
+    <string name="scan_mode">mode</string>
+    <string name="load">load</string>
+    <string name="domain">domain</string>
 
 </resources>

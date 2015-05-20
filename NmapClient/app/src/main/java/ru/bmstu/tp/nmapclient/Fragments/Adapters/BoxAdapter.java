@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import ru.bmstu.tp.nmapclient.Activities.PortHostsItem;
+import ru.bmstu.tp.nmapclient.Helper.PortHostsItem;
 import ru.bmstu.tp.nmapclient.R;
 
 public class BoxAdapter extends BaseAdapter {

@@ -12,7 +12,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Random;
 
-import ru.bmstu.tp.nmapclient.Activities.PortHostsItem;
+import ru.bmstu.tp.nmapclient.Helper.PortHostsItem;
 import ru.bmstu.tp.nmapclient.Fragments.Adapters.BoxAdapter;
 import ru.bmstu.tp.nmapclient.R;
 

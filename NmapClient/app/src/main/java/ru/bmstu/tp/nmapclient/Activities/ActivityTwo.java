@@ -3,13 +3,15 @@ package ru.bmstu.tp.nmapclient.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import ru.bmstu.tp.nmapclient.Fragments.Adapters.SmartFragmentStatePagerAdapter;
 import ru.bmstu.tp.nmapclient.Fragments.Adapters.TwoFragmentPagerAdapter;
 import ru.bmstu.tp.nmapclient.Fragments.InputValuesFragment;
 import ru.bmstu.tp.nmapclient.R;
@@ -19,7 +21,7 @@ public class ActivityTwo extends FragmentActivity implements View.OnClickListene
     final String TAG = "States";
 
     ViewPager pager;
-    PagerAdapter pagerAdapter;
+    SmartFragmentStatePagerAdapter adapterViewPager;
     Button btnNewScan;
 
     @Override
@@ -33,8 +35,8 @@ public class ActivityTwo extends FragmentActivity implements View.OnClickListene
         btnNewScan.setOnClickListener(this);
 
         pager = (ViewPager) findViewById(R.id.pager);
-        pagerAdapter = new TwoFragmentPagerAdapter(getSupportFragmentManager(), this);
-        pager.setAdapter(pagerAdapter);
+        adapterViewPager = new TwoFragmentPagerAdapter(getSupportFragmentManager(), this);
+        pager.setAdapter(adapterViewPager);
 
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -55,7 +57,27 @@ public class ActivityTwo extends FragmentActivity implements View.OnClickListene
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.menu_history:
+                Intent intent = new Intent(this, HistoryListActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void scanAgain() {
+        adapterViewPager.getRegisteredFragment(0);
         Toast.makeText(this, "will be scan again", Toast.LENGTH_LONG).show();
     }
 

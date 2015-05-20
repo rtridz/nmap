@@ -9,15 +9,13 @@ import ru.bmstu.tp.nmapclient.R;
 
 public class SplashActivity extends Activity {
 
-    private static final int SPLASH_SHOW_TIME = 10_000;
+    private static final int SPLASH_SHOW_TIME = 1_000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
         new BackgroundSplashTask().execute();
-
     }
 
     /**
@@ -63,6 +61,5 @@ public class SplashActivity extends Activity {
             startActivity(i);
             finish();
         }
-
     }
 }

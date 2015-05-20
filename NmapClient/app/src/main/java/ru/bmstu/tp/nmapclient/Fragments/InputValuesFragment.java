@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.util.Random;
@@ -25,7 +26,7 @@ public class InputValuesFragment extends Fragment implements Spinners, View.OnCl
     final String LOG_TAG = "myLogs";
     static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
 
-    private Listener activity;
+    Listener activity;
 
     int pageNumber;
     int backColor;
@@ -133,37 +134,52 @@ public class InputValuesFragment extends Fragment implements Spinners, View.OnCl
 
     @Override
     public String getPortTo() {
+        View view;
+        if ((view = getView()) != null){
+            EditText editText = (EditText) view.findViewById(R.id.etTo);
+            return editText.getText().toString();
+        }
         return null;
     }
 
     @Override
     public String getPortFrom() {
+        View view;
+        if ((view = getView()) != null){
+            EditText editText = (EditText) view.findViewById(R.id.etFrom);
+            return editText.getText().toString();
+        }
         return null;
     }
 
     @Override
-    public int setPortTo() {
-        return 0;
+    public void setPortTo(String port) {
+        View view;
+        if ((view = getView()) != null){
+            EditText editText = (EditText) view.findViewById(R.id.etTo);
+            editText.setText(port);
+        }
     }
 
     @Override
-    public int setPortFrom() {
-        return 0;
+    public void setPortFrom(String port) {
+        View view;
+        if ((view = getView()) != null){
+            EditText editText = (EditText) view.findViewById(R.id.etFrom);
+            editText.setText(port);
+        }
     }
 
     @Override
     public void onAttach(Activity activity) {
-        Log.e(LOG_TAG, "onAttach");
         super.onAttach(activity);
         if (activity instanceof Listener) {
             this.activity = (Listener) activity;
         } else {
             throw new ClassCastException(activity.toString()
-                    + " must implement InputValueListener.Listener");
+                    + " must implement TextFragment.Listener");
         }
     }
-
-
 
     public void onStart() {
         super.onStart();
