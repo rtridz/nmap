@@ -84,4 +84,15 @@
         <item>Nginx</item>
     </string-array>
 
+    <string name="some_text">
+         scan history
+    </string>
+    <string name="some_hint">
+         Type here to filter&#8230;
+    </string>
+    <string name="delete_scan">delete scan</string>
+    <string name="scan_mode">mode</string>
+    <string name="load">load</string>
+    <string name="domain">domain</string>
+
 </resources>

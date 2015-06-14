@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+import ru.bmstu.tp.nmapclient.Activities.ActivityTwo;
 import ru.bmstu.tp.nmapclient.Activities.MainActivity;
 import ru.bmstu.tp.nmapclient.R;
 import ru.bmstu.tp.nmapclient.Utils.GcmBroadcastReceiver;
@@ -67,8 +68,8 @@ public class GcmIntentService extends IntentService {
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, MainActivity.class), 0);
+        PendingIntent contentIntent = PendingIntent. .getActivity(this, 0,
+                new Intent(this, ActivityTwo.class), 0);
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)

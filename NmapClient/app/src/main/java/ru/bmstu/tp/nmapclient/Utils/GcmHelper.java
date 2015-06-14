@@ -3,6 +3,7 @@ package ru.bmstu.tp.nmapclient.Utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -11,6 +12,14 @@ import java.io.IOException;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+
+import ru.bmstu.tp.nmapclient.DataBase.DBContentProvider;
+import ru.bmstu.tp.nmapclient.DataBase.DBSchemas;
+import ru.bmstu.tp.nmapclient.Services.Exceptions.BadRequestException;
+import ru.bmstu.tp.nmapclient.Services.Exceptions.BadSessionIdException;
+import ru.bmstu.tp.nmapclient.Services.Exceptions.InitialServerException;
+import ru.bmstu.tp.nmapclient.Services.Exceptions.ServerConnectException;
+import ru.bmstu.tp.nmapclient.Services.NmapAPISender;
 
 public class GcmHelper {
 
@@ -115,7 +124,7 @@ public class GcmHelper {
 
                     // You should send the registration ID to your server over HTTP, so it
                     // can use GCM/HTTP or CCS to send messages to your app.
-//                    sendRegistrationIdToBackend(regId);
+                    sendRegistrationIdToBackend(regId);
 
                     // For this demo: we don't need to send it because the device will send
                     // upstream messages to a server that echo back the message using the
@@ -139,19 +148,20 @@ public class GcmHelper {
         }.execute(null, null, null);
     }
 
-//    private void sendRegistrationIdToBackend(String regId) {
-//        try {
-//            NmapAPISender.sendGcmId(regId);
-//        } catch (ServerConnectException e) {
-//            e.printStackTrace();
-//        } catch (InitialServerException e) {
-//            e.printStackTrace();
-//        } catch (BadSessionIdException e) {
-//            e.printStackTrace();
-//        } catch (BadRequestException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    private void sendRegistrationIdToBackend(String regId) {
+        Cursor cursor = null;
+        try {
+            cursor = activity.getContentResolver().query(DBContentProvider.INFO_URI, new String[]{DBSchemas.Info.USER_ID}, null, null, null);
+            if (cursor.moveToFirst()) new NmapAPISender(cursor.getInt(0)).sendGcmId(regId);
+            cursor.close();
+        } catch (ServerConnectException | InitialServerException | BadSessionIdException | BadRequestException e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
 
     /**
      * @return Application's {@code SharedPreferences}.

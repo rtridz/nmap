@@ -7,27 +7,27 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
-    <permission android:name="com.example.gcm.permission.C2D_MESSAGE"
+    <permission
+        android:name="com.example.gcm.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="com.example.gcm.permission.C2D_MESSAGE" />
 
     <application
         android:name=".Utils.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:label="@string/app_name">
         <activity
             android:name=".Activities.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Activities.MainActivity"
             android:label="@string/app_name" >
@@ -42,16 +42,34 @@
             android:label="@string/app_name" >
         </activity>
 
+        <activity
+            android:name=".Activities.HistoryListActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".Activities.HistoryDetailActivity"
+            android:label="@string/app_name" >
+        </activity>
+
         <receiver
             android:name=".Utils.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="com.example.gcm" />
             </intent-filter>
         </receiver>
+
         <service android:name=".Services.GcmIntentService" />
         <service android:name=".Services.APIService" />
+
+        <provider
+            android:name=".DataBase.DBContentProvider"
+            android:authorities="ru.bmstu.tp.nmapclient.DBContentProvider"
+            android:enabled="true"
+            android:exported="true" >
+        </provider>
     </application>
 
 </manifest>

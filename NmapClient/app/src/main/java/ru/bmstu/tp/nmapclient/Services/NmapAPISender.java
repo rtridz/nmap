@@ -1,7 +1,10 @@
 package ru.bmstu.tp.nmapclient.Services;
 
+import android.content.ContentValues;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xml.sax.SAXException;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -12,28 +15,35 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import ru.bmstu.tp.nmapclient.DataBase.DBContentProvider;
+import ru.bmstu.tp.nmapclient.DataBase.DBSchemas;
 import ru.bmstu.tp.nmapclient.Services.Exceptions.BadRequestException;
 import ru.bmstu.tp.nmapclient.Services.Exceptions.BadSessionIdException;
 import ru.bmstu.tp.nmapclient.Services.Exceptions.InitialServerException;
 import ru.bmstu.tp.nmapclient.Services.Exceptions.ServerConnectException;
+import ru.bmstu.tp.nmapclient.Services.SQLReader.NmapScanResult;
+import ru.bmstu.tp.nmapclient.Services.SQLReader.NmapScanResultParser;
 
 public class NmapAPISender {
     private static final String SERVER_URL = "http://127.0.0.1:8080/nmap";
     private enum Status {
         OK, ERROR, BAD_ID, BAD_REQUEST, WAIT
     }
-    private static Long sessionId = 0L;
+    private int userId = 0;
 
-    public static void setSessionId(Long id) {
-        sessionId = id;
+    public int getUserId() {
+        return userId;
     }
 
-    public static Long getSessionId() {
-        return sessionId;
+    public NmapAPISender(int userId) {
+        this.userId = userId;
     }
 
-    private static StringBuilder sendRequest(StringBuilder url, String data) {
+    private StringBuilder sendRequest(StringBuilder url, String data) {
         URL getReq;
         try {
             getReq = new URL(url.toString());
@@ -84,9 +94,9 @@ public class NmapAPISender {
         return response;
     }
 
-    public static Long updateSessionId() throws ServerConnectException, InitialServerException {
+    public Integer updateSessionId() throws ServerConnectException, InitialServerException {
         StringBuilder url = new StringBuilder(SERVER_URL);
-        url.append("/session_id");
+        url.append("/user_id");
         StringBuilder response = sendRequest(url, null);
         if (response == null || response.length() == 0) {
             throw new ServerConnectException();
@@ -96,8 +106,8 @@ public class NmapAPISender {
             json = new JSONObject(response.toString());
             switch (Status.valueOf(json.getString("status"))) {
                 case OK :
-                    sessionId = json.getLong("id");
-                    return sessionId;
+                    userId = json.getInt("id");
+                    return userId;
                 default:
                     throw new InitialServerException();
             }
@@ -106,13 +116,13 @@ public class NmapAPISender {
         }
     }
 
-    public static void sendGcmId(String GcmId) throws
+    public void sendGcmId(String GcmId) throws
             ServerConnectException, InitialServerException, BadSessionIdException, BadRequestException {
-        if (sessionId == 0) {
+        if (userId == 0) {
             throw new BadSessionIdException();
         }
         StringBuilder url = new StringBuilder(SERVER_URL);
-        url.append("/gcm_id?id=" + sessionId);
+        url.append("/gcm_id?id=" + userId);
         StringBuilder response = sendRequest(url, GcmId);
         if (response == null || response.length() == 0) {
             throw new ServerConnectException();
@@ -135,9 +145,9 @@ public class NmapAPISender {
         }
     }
 
-    public static void sendCheckRequest() throws ServerConnectException, InitialServerException {
+    public void sendCheckRequest() throws ServerConnectException, InitialServerException {
         StringBuilder url = new StringBuilder(SERVER_URL);
-        url.append("/check_connect?id=" + sessionId);
+        url.append("/check_connect?id=" + userId);
         StringBuilder response = sendRequest(url, null);
         if (response == null || response.length() == 0) {
             throw new ServerConnectException();
@@ -156,13 +166,13 @@ public class NmapAPISender {
         }
     }
 
-    public static String sendAPIRequest(String request) throws
+    public NmapScanResult sendAPIRequest(String request) throws
             ServerConnectException, InitialServerException, BadSessionIdException, BadRequestException {
-        if (sessionId == 0) {
+        if (userId == 0) {
             throw new BadSessionIdException();
         }
         StringBuilder url = new StringBuilder(SERVER_URL);
-        url.append("/api_request?id=" + sessionId);
+        url.append("/api_request?id=" + userId);
         StringBuilder response = sendRequest(url, request);
         if (response == null || response.length() == 0) {
             throw new ServerConnectException();
@@ -172,7 +182,7 @@ public class NmapAPISender {
             json = new JSONObject(response.toString());
             switch (Status.valueOf(json.getString("status"))) {
                 case OK :
-                    return json.getString("result"); // return a json string
+                    return new NmapScanResultParser().parse(json.getString("result"));
                 case WAIT :
                     return null;
                 case BAD_ID :
@@ -182,7 +192,7 @@ public class NmapAPISender {
                 default:
                     throw new InitialServerException();
             }
-        } catch (JSONException e) {
+        } catch (JSONException | ParserConfigurationException | IOException | SAXException e) {
             throw new InitialServerException();
         }
     }
